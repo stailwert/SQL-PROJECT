@@ -1,3 +1,23 @@
+-- View Order Table
+select * from order_details;
+
+-- What is the date range of this table?
+select * from order_details
+order by order_date;
+
+-- How many orders were made within this date range?
+select count(distinct order_id) from order_details;
+
+-- How many items were ordered within this date range?
+select count(*) from order_details;
+
+-- How many orders had more than 12 items?
+select COUNT(*) from
+(select order_id, count(item_id) as num_items
+ from order_details
+group by order_id 
+having num_items > 12) as num_orders;
+
 -- Combine the menu_items and order_details tables into a single table
 select * from menu_items;
 select * from order_details;
@@ -5,6 +25,7 @@ select * from order_details;
 Select *
 from order_details od Left join menu_items mi
 	on od.item_id = mi.menu_item_id;
+
 -- What were the least and most ordered items? What categories were they in
 select item_name, count(order_details_id) as num
 from order_details od Left join menu_items mi
